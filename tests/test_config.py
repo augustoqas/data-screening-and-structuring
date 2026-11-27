@@ -70,3 +70,9 @@ def test_invalid_values_fail_fast(monkeypatch: pytest.MonkeyPatch, name: str, va
     monkeypatch.setenv(name, value)
     with pytest.raises(ValidationError):
         load()
+
+
+@pytest.mark.parametrize("value", ["", "   "])
+def test_blank_api_key_counts_as_missing(monkeypatch: pytest.MonkeyPatch, value: str) -> None:
+    monkeypatch.setenv("OPENAI_API_KEY", value)
+    assert load().openai_api_key is None
