@@ -133,3 +133,9 @@ def test_missing_usage_counts_as_zero_tokens() -> None:
     client, _ = client_with(make_completion(usage={}))
     response = client.complete(MESSAGES, SCHEMA, "triage_result")
     assert (response.input_tokens, response.output_tokens) == (0, 0)
+
+
+def test_missing_credentials_become_llm_error(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    with pytest.raises(LLMError, match="could not create OpenAI client"):
+        OpenAIClient("gpt-test", api_key=None)

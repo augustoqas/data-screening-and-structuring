@@ -80,7 +80,12 @@ class OpenAIClient:
         # The SDK already retries transient failures (connection errors, 429, 5xx) with
         # exponential backoff; max_retries tunes that. Retrying *bad outputs* is a
         # different concern, handled by the pipeline.
-        self._client = openai.OpenAI(api_key=api_key, timeout=timeout_s, max_retries=max_retries)
+        try:
+            self._client = openai.OpenAI(
+                api_key=api_key, timeout=timeout_s, max_retries=max_retries
+            )
+        except openai.OpenAIError as exc:  # e.g. no credentials available
+            raise LLMError(f"could not create OpenAI client: {exc}") from exc
 
     def complete(
         self, messages: list[dict[str, str]], json_schema: dict[str, Any], schema_name: str

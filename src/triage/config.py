@@ -8,9 +8,9 @@ typo in ``TRIAGE_REQUEST_TIMEOUT_S`` is caught at startup, not mid-request.
 from __future__ import annotations
 
 from functools import lru_cache
-from typing import Literal
+from typing import Any, Literal
 
-from pydantic import AliasChoices, Field, SecretStr
+from pydantic import AliasChoices, Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -30,6 +30,20 @@ class Settings(BaseSettings):
     # Reasoning models reject a custom temperature, so it is only sent when set.
     temperature: float | None = Field(default=None, ge=0, le=2)
     reasoning_effort: Literal["minimal", "low", "medium", "high"] | None = None
+
+    @field_validator("openai_api_key", mode="before")
+    @classmethod
+    def blank_key_is_missing(cls, value: Any) -> Any:
+        """Treat an empty or whitespace-only key (``OPENAI_API_KEY=``) as not set.
+
+        Otherwise an empty string would pass the "is a key configured?" check and fail
+        later, deep inside the SDK, with a far less helpful error.
+        """
+        if isinstance(value, SecretStr):
+            value = value.get_secret_value()
+        if isinstance(value, str) and not value.strip():
+            return None
+        return value
 
 
 @lru_cache
