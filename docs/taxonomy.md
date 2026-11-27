@@ -47,9 +47,13 @@ How fast a human should look at the message. Priority follows **the situation**,
 | Value | Rule | Example |
 |---|---|---|
 | `urgent` | Financial loss in progress (e.g. duplicate charge), safety risk, or legal threat (Procon, lawsuit) | *"cobraram 3x no meu cartão"*, *"vou no Procon"* |
-| `high` | Order not received past the deadline, damaged or wrong item, or an angry customer | *"chegou quebrado"*, *"já faz 2 semanas de atraso"* |
+| `high` | Order not received past the deadline, damaged or wrong item, an angry customer, or a time-sensitive request with a closing window (change address or cancel **before** the order ships) | *"chegou quebrado"*, *"já faz 2 semanas de atraso"*, *"quero cancelar antes de enviar"* |
 | `medium` | Needs action but there is no time pressure | *"quero trocar o tamanho"* |
 | `low` | Questions and out-of-scope messages | *"vocês entregam em Manaus?"* |
+
+Priority mixes two kinds of urgency. One is **severity**: something bad is happening now (money leaving the account, a safety or legal risk) -> `urgent`. The other is a **closing window**: the harm is small but a deadline is near, and acting now prevents a much worse outcome later -> `high`. Changing an address or cancelling before an order ships is the second kind: low severity, but once it ships the request is impossible and becomes a return. It is `high`, not `urgent`, because the damage is not grave and we cannot confirm shipping is imminent.
+
+An **overdue refund** (already promised, past the expected window) is `high`: the customer is owed money and has waited, but nothing is actively draining their account, so it is not `urgent`.
 
 `priority_reason` holds one short sentence in Portuguese justifying the choice.
 
