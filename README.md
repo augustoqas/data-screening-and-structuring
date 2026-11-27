@@ -118,7 +118,7 @@ pipeline = TriagePipeline(client, prompt_version=settings.prompt_version)
 
 outcome = pipeline.run("pedi tênis 42 e veio 38")
 if outcome.status == "success":
-    print(outcome.result.category)   # wrong_item
+    print(outcome.result.category)  # wrong_item
 ```
 
 ## Configuration

@@ -15,6 +15,7 @@ Calling the OpenAI SDK directly from the pipeline would also tie the whole proje
 ```python
 class LLMClient(Protocol):
     model: str
+
     def complete(self, messages, json_schema, schema_name) -> LLMResponse: ...
 ```
 
