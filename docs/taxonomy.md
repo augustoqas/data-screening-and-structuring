@@ -51,6 +51,8 @@ How fast a human should look at the message. Priority follows **the situation**,
 | `medium` | Needs action but there is no time pressure | *"quero trocar o tamanho"* |
 | `low` | Questions and out-of-scope messages | *"vocês entregam em Manaus?"* |
 
+An **overdue refund** (already promised, past the expected window) is `high`: the customer is owed money and has waited, but nothing is actively draining their account, so it is not `urgent`.
+
 `priority_reason` holds one short sentence in Portuguese justifying the choice.
 
 > **Known gap (v1):** in early manual tests the model rated *"chegou quebrado e quero meu dinheiro de volta URGENTE"* as `urgent` instead of `high`, following the customer's wording rather than the rule. Cases like this are part of the golden set, and phase 3 adds business-rule checks.
