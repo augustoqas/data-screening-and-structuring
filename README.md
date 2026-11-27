@@ -1,5 +1,7 @@
 # E-commerce Support Triage
 
+[![CI](https://github.com/augustoqas/data-screening-and-structuring/actions/workflows/ci.yml/badge.svg)](https://github.com/augustoqas/data-screening-and-structuring/actions/workflows/ci.yml)
+
 > An LLM pipeline that turns messy customer support messages into validated, structured data - and an eval harness that proves, with numbers, how reliable it is.
 
 🚧 **Status: in development.** See the [roadmap](#roadmap) for what is done and what is next.
